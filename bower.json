@@ -1,0 +1,27 @@
+{
+  "name": "Workflow",
+  "description": "Klient/Server typu PROXY dla żądań REST",
+  "main": "",
+  "authors": [
+    "Paweł Franczyk"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/logrox/Workflow",
+  "moduleType": [
+    "es6"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "angular": "~1.4.8",
+    "angular-ui": "~0.4.0",
+    "angular-route": "~1.4.8",
+    "angular-resource": "~1.4.8"
+  }
+}
