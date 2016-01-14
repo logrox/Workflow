@@ -2,13 +2,18 @@ var express = require('express');
 var router = express.Router();
 var app;
 /* GET listing all methods */
-router.route('/___')
+router.route('/')
     .get(function (req, res, next) {
         res.render('newRoute');
     });
 
 /* Dodawanie funkcji dla restów */
 
+
+router.get(['/fn/list'],function (req, res, next) {
+    var fnRoute = req.app.get('fnRoute');
+    res.json(Object.keys(fnRoute));
+});
 router.route(['/fn', '/fn/:index'])
     .all(function (req, res, next) {
         var fnRoute = req.app.get('fnRoute');
@@ -20,18 +25,27 @@ router.route(['/fn', '/fn/:index'])
         if (req.params.index) {
             if (fnRoute[req.params.index])
                 res.json(fnRoute[req.params.index]);
-            else next(Error('Nie znaleziono funkcji'))
-        } else {
-            res.json(Object.keys(fnRoute));
+            else {
+                var err = new Error("Nie znaleziono funkcji");
+                err.status = 400;
+                next(err);
+            }
+        }else {
+            res.json(fnRoute);
         }
     })
     .post(function (req, res, next) {
         var fnRoute = req.app.get('fnRoute');
-
-        var name = req.body.name;
-        var body = req.body.body;
-        fnRoute[name] = body;
-        res.send(204);
+        if (req.body && req.body.name && req.body.body) {
+            var name = req.body.name;
+            var body = req.body.body;
+            fnRoute[name] = body;
+            res.send(204);
+        } else {
+            var err = new Error("Błąd dodawania zasobu.");
+            err.status = 400;
+            next(err);
+        }
     });
 
 
@@ -74,9 +88,9 @@ router.route(['/route', '/route/:index'])
             if (true) {
 
                 /*
-                todo sprawdzić parametrów
-                todo dorobić path typu Array
-                */
+                 todo sprawdzić parametrów
+                 todo dorobić path typu Array
+                 */
                 /*
                  req.body.path.forEach(function (path) {
                  pathTab.push(path);

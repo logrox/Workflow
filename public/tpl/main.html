@@ -1,0 +1,36 @@
+
+<div>
+  <h2>Lista dostępych restów:</h2>
+  <div class="table-responsive col-lg-10 col-lg-offset-1">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="col-lg-1">id</th>
+          <th class="col-lg-5">Ścieżki</th>
+          <th class="col-lg-4">Funkcje</th>
+          <th class="col-lg-2">Akcja</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-hide="routes.length == 0">
+          <td colspan="4" class="text-center">Brak danych do wyświetlenia</td>
+        </tr>
+        <tr ng-repeat="route in routers">
+          <td ng-bind="route.index"></td>
+          <td ng-bind="route.path"></td>
+          <td ng-bind="route.fn"></td>
+          <td>
+            <button ng-click="remove($index)">Kasuj</button>
+            <button ng-click="update($index)">Zmień</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h2>Dodawanie nowego rest'a</h2>
+  <div>
+    <input ng-model="restNew.path"/>
+    <textarea ng-model="restNew.fn" name="fn">function x(q,w){w.send("OK");}</textarea>
+    <button ng-click="add()">Dodaj</button>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+div
+    h2 Lista dostępych restów:
+    .table-responsive.col-lg-10.col-lg-offset-1: table.table.table-bordered
+        thead
+            tr
+                th.col-lg-1 id
+                th.col-lg-5 Ścieżki
+                th.col-lg-4 Funkcje
+                th.col-lg-2 Akcja
+        tbody
+            tr(ng-hide="routes.length == 0")
+                td.text-center(colspan="4") Brak danych do wyświetlenia
+            tr(ng-repeat="route in routers")
+                td(ng-bind="route.index")
+                td(ng-bind="route.path")
+                td(ng-bind="route.fn")
+                td
+                    button(ng-click="remove($index)") Kasuj
+                    button(ng-click="update($index)") Zmień
+    h2 Dodawanie nowego rest'a
+    div
+        input(ng-model="restNew.path")
+        textarea(ng-model="restNew.fn" name="fn") function x(q,w){w.send("OK");}
+        button(ng-click="add()") Dodaj

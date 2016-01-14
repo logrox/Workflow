@@ -1,0 +1,25 @@
+div
+    h2 Lista dostępych funkcji:
+    .table-responsive.col-lg-10.col-lg-offset-1: table.table.table-bordered
+        thead
+            tr
+                th.col-lg-1 #
+                th.col-lg-5 Nazwa
+                th.col-lg-4 Kontekst
+                th.col-lg-2 Akcja
+        tbody
+            tr(ng-hide="fnLists")
+                td.text-center(colspan="4") Brak danych do wyświetlenia
+            tr(ng-repeat="(name, body) in fnLists")
+                td(ng-bind="$index")
+                td(ng-bind="name")
+                td(ng-bind="body")
+                td
+                    button(ng-click="remove(fnList.name)") Kasuj
+                    button(ng-click="update(fnList.name)") Zmień
+    h2 Dodawanie nowej funkcji
+    div
+        input(ng-model="newResource.name" name="name")
+        textarea(ng-model="newResource.body" name="body")
+            | function x(q,w){w.send("OK");}
+        button(ng-click="fnAdd()") Dodaj

@@ -1,0 +1,36 @@
+
+<div>
+  <h2>Lista dostępych funkcji:</h2>
+  <div class="table-responsive col-lg-10 col-lg-offset-1">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="col-lg-1">#</th>
+          <th class="col-lg-5">Nazwa</th>
+          <th class="col-lg-4">Kontekst</th>
+          <th class="col-lg-2">Akcja</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-hide="fnLists">
+          <td colspan="4" class="text-center">Brak danych do wyświetlenia</td>
+        </tr>
+        <tr ng-repeat="(name, body) in fnLists">
+          <td ng-bind="$index"></td>
+          <td ng-bind="name"></td>
+          <td ng-bind="body"></td>
+          <td>
+            <button ng-click="remove(fnList.name)">Kasuj</button>
+            <button ng-click="update(fnList.name)">Zmień</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h2>Dodawanie nowej funkcji</h2>
+  <div>
+    <input ng-model="newResource.name" name="name"/>
+    <textarea ng-model="newResource.body" name="body">function x(q,w){w.send("OK");}</textarea>
+    <button ng-click="fnAdd()">Dodaj</button>
+  </div>
+</div>

@@ -1,25 +1,19 @@
 extends layout
 
 block content
-    div(ng-controller="routerList")
-        h2 Lista dostępych restów:
-        table
-            thead
-            tr
-                th id
-                th path
-                th action
-            tbody
-                tr(ng-repeat="route in routers")
-                    td(ng-bind="route.index")
-                    td
-                        input(type="text" ng-model="route.path")
-                    td
-                        button(ng-click="remove($index)") Kasuj
-                        button(ng-click="update($index)") Aktualizuj
-        h2 Dodawanie nowego rest'a
-        div
-            input(ng-model="restNew.path")
-            textarea(ng-model="restNew.fn" name="fn") function x(q,w){w.send("OK");}
-            button(ng-click="add()") Dodaj
+    nav.navbar.navbar-default.navbar-static-top
+        .container
+            .navbar-header
+                a.navbar-brand(ui-sref="main") Virtual REST router.
+            div
+                ul.nav.navbar-nav
+                    li: a(ui-sref="function") Funkcje (własne)
+                    li: a(ui-sref="function") Funkcje (wbudowane)
+                    li: a(ui-sref="route") Trasy
+                    li: a(ui-sref="header") Nagłówki (własne)
+                    li: a(ui-sref="header") Nagłówki (wbudowane)
+                    li: a(ui-sref="header") Sesje
+                    li: a(ui-sref="header") Autoryzacja
+    div.view.container.row(ui-view)
+
 
