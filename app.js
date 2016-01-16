@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+const fs = require('fs');
 var routes = express.Router();
 
 var newRoute = require('./routes/newRoute');
@@ -12,6 +12,16 @@ var newRoute = require('./routes/newRoute');
 var app = express();
 var fnRoute = {};
 app.set("fnRoute", fnRoute);
+
+fs.readFile(__dirname + '/routes/functionList.json', "utf8", function (err, file) {
+    if (!err) {
+        var read = JSON.parse(file);
+        var keys = Object.keys(read);
+        keys.forEach(function (key) {
+            fnRoute[key] = read[key];
+        });
+    }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

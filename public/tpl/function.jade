@@ -15,8 +15,12 @@ div
                 td(ng-bind="name")
                 td(ng-bind="body")
                 td
-                    button(ng-click="remove(fnList.name)") Kasuj
-                    button(ng-click="update(fnList.name)") Zmień
+                    button(ng-click="fnRemove(name)") Kasuj
+                    button(ng-click="update(name)") Zmień
+        tfoot
+            tr
+                td(colspan=2): button(ng-click="saveToHdd()") Zapisz na dysku
+                td(colspan=2): button(ng-click="readFromHdd()") Odczyt z dysku
     h2 Dodawanie nowej funkcji
     div
         input(ng-model="newResource.name" name="name")

@@ -20,11 +20,21 @@
           <td ng-bind="name"></td>
           <td ng-bind="body"></td>
           <td>
-            <button ng-click="remove(fnList.name)">Kasuj</button>
-            <button ng-click="update(fnList.name)">Zmień</button>
+            <button ng-click="fnRemove(name)">Kasuj</button>
+            <button ng-click="update(name)">Zmień</button>
           </td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2">
+            <button ng-click="saveToHdd()">Zapisz na dysku</button>
+          </td>
+          <td colspan="2">
+            <button ng-click="readFromHdd()">Odczyt z dysku</button>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   </div>
   <h2>Dodawanie nowej funkcji</h2>

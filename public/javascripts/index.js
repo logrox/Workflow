@@ -15,48 +15,72 @@
                     templateUrl: "../tpl/main.html"
                 })
                 .state('function', {
-                    controller:"functionList",
+                    controller: "functionList",
                     url: "/function/:id",
                     templateUrl: "../tpl/function.html"
                 })
                 .state('route', {
-                    controller:"routerList",
+                    controller: "routerList",
                     url: "/route",
                     templateUrl: "../tpl/main.html"
                 });
         }])
         .controller('functionList', ["$scope", "$resource", function ($scope, $resource) {
             "use strict";
-            var res = $resource('___/fn/:index', {index: '@index'});
+            var res = $resource('___/fn/:name', {name: '@name'});
+            var resFileFn = $resource('___/fn/:operation',null, {
+                saveFile: {method: "POST", params: {operation: "save"}, isArray: false},
+                readFile: {method: "POST", params: {operation: "read"}, isArray: false}
+            });
             $scope.fnLists = {};
-            var newResource = $scope.newResource = {
+            $scope.newResource = {
                 name: '',
-                body: ''
+                body: '',
+                description:""
             };
 
             $scope.fnRemove = fnRemove;
             $scope.fnAdd = fnAdd;
             $scope.fnUpdate = fnUpdate;
 
+            $scope.saveToHdd = saveToHdd;
+            $scope.readFromHdd = readFromHdd;
+
             res.get().$promise.then(function (res) {
                 "use strict";
                 $scope.fnLists = res;
             });
 
-            function fnRemove(){
+            function fnRemove(name) {
                 "use strict";
-
+                $scope.fnLists.$remove({name:name})
             }
-            function fnAdd(){
+
+            function fnAdd() {
                 "use strict";
-                var newFn = new res(newResource);
-                newFn.$save(function(res){
+                var newFn = new res($scope.newResource);
+                newFn.$save(function (res) {
                     console.log('Dodano funkcje');
+                    $scope.fnLists = res;
                 });
             }
-            function fnUpdate(){
+
+            function fnUpdate() {
                 "use strict";
 
+            }
+
+            function saveToHdd() {
+                if (confirm("Nadpisać plik?."))
+                    resFileFn.saveFile().$promise.then(function (res) {
+                        console.log("Zapisano na Dysku: ", res);
+                    });
+            }
+            function readFromHdd(){
+                resFileFn.readFile().$promise.then(function (res) {
+                    console.log("Dane odczytano: ", res);
+                    $scope.fnLists = res;
+                })
             }
 
         }])

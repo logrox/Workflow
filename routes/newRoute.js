@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const fs = require('fs');
 var app;
+
 /* GET listing all methods */
 router.route('/')
     .get(function (req, res, next) {
@@ -9,17 +11,22 @@ router.route('/')
 
 /* Dodawanie funkcji dla restów */
 
-
-router.get(['/fn/list'],function (req, res, next) {
+router.get(['/fn/list'], function (req, res, next) {
     var fnRoute = req.app.get('fnRoute');
     res.json(Object.keys(fnRoute));
 });
-router.route(['/fn', '/fn/:index'])
-    .all(function (req, res, next) {
+
+router
+    .post("/fn/save", function (req, res, next) {
         var fnRoute = req.app.get('fnRoute');
-        console.log('t:', fnRoute);
-        next();
-    })
+        fs.writeFile(__dirname + '/functionList.json', JSON.stringify(fnRoute), "utf8", function (err) {
+            if (!err) {
+                res.send(201);
+            } else next(err);
+        })
+    });
+
+router.route(['/fn', '/fn/:index'])
     .get(function (req, res, next) {
         var fnRoute = req.app.get('fnRoute');
         if (req.params.index) {
@@ -30,7 +37,7 @@ router.route(['/fn', '/fn/:index'])
                 err.status = 400;
                 next(err);
             }
-        }else {
+        } else {
             res.json(fnRoute);
         }
     })
@@ -38,14 +45,20 @@ router.route(['/fn', '/fn/:index'])
         var fnRoute = req.app.get('fnRoute');
         if (req.body && req.body.name && req.body.body) {
             var name = req.body.name;
-            var body = req.body.body;
+            var body = {
+                body: req.body.body,
+                description: req.body.description
+            };
             fnRoute[name] = body;
-            res.send(204);
+            res.send(fnRoute);
         } else {
             var err = new Error("Błąd dodawania zasobu.");
             err.status = 400;
             next(err);
         }
+    })
+    .put(function (req, res, next) {
+        next();
     });
 
 
